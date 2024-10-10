@@ -10,17 +10,25 @@
 
     ``anasstouaticoder/magento2-module-back-to-top``
 
- - [Main Functionalities](#markdown-header-main-functionalities)
- - [Installation](#markdown-header-installation)
- - [Configuration](#markdown-header-configuration)
- - [Specifications](#markdown-header-specifications)
- - [usage](#markdown-header-usage)
- - [License](#markdown-header-license)
+ - [Main Functionalities](#user-content-main-functionalities)
+ - [Requirements](#user-content-Requirements)
+ - [Installation](#user-content-installation)
+ - [Configuration](#user-content-configuration)
+ - [Specifications](#user-content-specifications)
+ - [Usage](#user-content-usage)
+ - [License](#user-content-license)
 
 
 ## Main Functionalities
-The module add Lokaise translation as new Layer to Magento translation structure 
+The module add Lokaise translation as new Layer to Magento translation structure
+
+## Requirements
+
+- **Magento Version**: 2.4.x or higher
+- **PHP Version**: 7.4 or 8.x
+- **Lokalise API Key**: You need an active Lokalise account and API key.
 ## Installation
+
 \* = in production please use the `--keep-generated` option
 
 ### install from composer 2
@@ -53,7 +61,8 @@ Navigate to Stores > Configuration > Atouati Tools > Lokalise Translation.
 Then save changes and refresh config and translation caches
 ## Specifications
 
-This module gives the possibility to integrate Lokalise translations in Magento projects 
+- This module allows you to integrate Lokalise translations into Magento projects.
+- The module will load Lokalise translations for a given locale ISO code. For example, if your store view is set to French (`fr_FR`), the French translation from the `fr_FR` locale in Lokalise will be applied to the store's translations.
 ## Usage
 After Configurating the module, now you juste need to add/modify or remove translation keys in 
 lokalise dashboard then purge tranlsation cache in 

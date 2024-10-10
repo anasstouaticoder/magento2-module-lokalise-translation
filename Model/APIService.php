@@ -71,17 +71,24 @@ class APIService
         }
         try {
             if ($this->config->isEnabled()) {
-                $languageId = 0;
+                $languageId = null;
                 foreach ($this->getLanguagesList()['languages'] as $language) {
                     if ($locale === $language['lang_iso']) {
                         $languageId = $language['lang_id'];
                         break;
                     }
                 }
-                foreach ($this->getKeyList($languageId)['keys'] as $key) {
-                    $translations[$key['key_name']['web']] = $key['translations'][0]['translation'];
+                $translations = [];
+                if ($languageId !== null) {
+                    foreach ($this->getKeyList($languageId)['keys'] as $key) {
+                        $translations[$key['key_name']['web']] = $key['translations'][0]['translation'];
+                    }
+                } else {
+                    $this->addLog(
+                        'Language locale '. $locale .' not found in Lokalise',
+                        ['project_id' => $this->config->getProjectId(), 'api_token' => $this->config->getApiToken()]
+                    );
                 }
-
             }
         } catch (LocalizedException|Exception $exception) {
             $translations = [];
@@ -123,7 +130,11 @@ class APIService
 
         $responseData = $this->json->unserialize($response);
         if (!$this->isResponseValid($responseData)) {
-            $this->addLog('Connection Error', $responseData['error']);
+            $errorData = array_merge(
+                ['project_id' => $this->config->getProjectId(), 'api_token' => $this->config->getApiToken()],
+                $responseData['error']
+            );
+            $this->addLog('Connection Error', $errorData);
             throw new LocalizedException(__('Lokalise API Error'));
         }
         return $responseData;
@@ -135,7 +146,7 @@ class APIService
      * @return array|null
      * @throws LocalizedException
      */
-    private function getLanguagesList()
+    protected function getLanguagesList()
     {
         return $this->execute(self::LANGUAGE_URI);
     }
@@ -147,9 +158,10 @@ class APIService
      * @return array|null
      * @throws LocalizedException
      */
-    private function getKeyList(int $languageId): ?array
+    protected function getKeyList(int $languageId): ?array
     {
         $queryString = "?filter_translation_lang_ids=$languageId&include_translations=1";
+
         return $this->execute(self::KEY_URI, [], $queryString);
     }
 
@@ -159,7 +171,7 @@ class APIService
      * @param array $response
      * @return bool
      */
-    private function isResponseValid(array $response): bool
+    protected function isResponseValid(array $response): bool
     {
         return !isset($response['error']);
     }
@@ -171,7 +183,7 @@ class APIService
      * @param array $context
      * @return void
      */
-    private function addLog(string $message, array $context = []): void
+    protected function addLog(string $message, array $context = []): void
     {
         if ($this->config->isDebug()) {
             $this->logger->error($message, $context);

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="lokalise_translation" translate="label" type="text" sortOrder="100"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Lokalise Translation</label>
+            <tab>anass_Touati_coder</tab>
+            <resource>AnassTouatiCoder_LokaliseTranslation::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_token" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>API Token</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="project_id" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Project ID</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="debug" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1"
+                       translate="label,comment">
+                    <label>Debug Mode</label>
+
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                    <p> The log File is located in Magento root <b>/var/log/at_lokalise.log</b></p>
+                    <br><a href="https://developers.lokalise.com/reference/lokalise-rest-api" target="_blank">
+                    Read more about Lokalise REST APIs</a></br>
+                    <a href="" target="_blank">Model Wiki</a>
+                    ]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

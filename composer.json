@@ -1,0 +1,39 @@
+{
+    "name": "anasstouaticoder/magento2-module-lokalise-translation",
+    "description": "The Lokalise translation module enhances Magento Translation by adding Lokalise layer to native translation.",
+    "keywords": [
+        "magento 2",
+        "translation",
+        "rest api",
+        "Lokalise",
+        "frontend component"
+    ],
+    "authors": [
+        {
+            "name": "Anass TOUATI",
+            "email": "anass1touati@gmail.com",
+            "homepage": "https://www.linkedin.com/in/anass-touati-9a3b028b/",
+            "role": "Leader"
+        }
+    ],
+    "require": {
+        "anasstouaticoder/magento2-module-base": "^1.2.17",
+        "magento/framework": "*",
+        "php": "~7.4||^8.0"
+    },
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": [
+        "MIT"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "AnassTouatiCoder\\LokaliseTranslation\\": ""
+        }
+    }
+}

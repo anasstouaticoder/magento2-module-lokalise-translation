@@ -70,6 +70,7 @@ class APIService
             return [];
         }
         try {
+            $translations = [];
             if ($this->config->isEnabled()) {
                 $languageId = null;
                 foreach ($this->getLanguagesList()['languages'] as $language) {
@@ -78,7 +79,7 @@ class APIService
                         break;
                     }
                 }
-                $translations = [];
+
                 if ($languageId !== null) {
                     foreach ($this->getKeyList($languageId)['keys'] as $key) {
                         $translations[$key['key_name']['web']] = $key['translations'][0]['translation'];

@@ -79,7 +79,6 @@ class APIService
                         break;
                     }
                 }
-
                 if ($languageId !== null) {
                     foreach ($this->getKeyList($languageId)['keys'] as $key) {
                         $translations[$key['key_name']['web']] = $key['translations'][0]['translation'];
@@ -94,6 +93,7 @@ class APIService
         } catch (LocalizedException|Exception $exception) {
             $translations = [];
         }
+
         return $translations;
     }
 
@@ -161,9 +161,26 @@ class APIService
      */
     protected function getKeyList(int $languageId): ?array
     {
-        $queryString = "?filter_translation_lang_ids=$languageId&include_translations=1";
+        $translations = [];
+        $page = 1;
+        // Limit to the max allowed by the API
+        $limit = 500;
+        // TODO USE rabbitMQ and cron to call Lokalise API because it takes 12 seconds to load 10658 records
+        do {
+            $queryString = "?filter_translation_lang_ids=$languageId&include_translations=1&page=$page&limit=$limit";
+            $response = $this->execute(self::KEY_URI, [], $queryString);
 
-        return $this->execute(self::KEY_URI, [], $queryString);
+            if (isset($response['keys'])) {
+                $translations = array_merge($translations, $response['keys']);
+            }
+
+            // Increment the page number for the next iteration
+            $page++;
+
+            // Stop if there are no more keys (API returns an empty array or less than the limit)
+        } while (!empty($response['keys']) && count($response['keys']) === $limit);
+
+        return ['keys' => $translations];
     }
 
     /**

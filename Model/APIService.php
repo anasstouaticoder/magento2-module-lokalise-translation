@@ -15,6 +15,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 
 class APIService
@@ -55,6 +56,19 @@ class APIService
         $this->config = $config;
         $this->logger = $logger;
         $this->json = $json;
+    }
+
+    /**
+     * Get Project data this API call is used to check connection
+     *
+     * @param int|null $scopeId
+     * @param string|null $scope
+     * @return array|null
+     * @throws LocalizedException
+     */
+    public function getProject(?int $scopeId = null, ?string $scope = null): ?array
+    {
+        return $this->execute('', [], '', $scopeId, $scope);
     }
 
     /**
@@ -103,18 +117,23 @@ class APIService
      * @param string $uri
      * @param array $additionalHeaders
      * @param string $params
+     * @param int|null $scopeId
+     * @param string|null $scope
      * @return array|null
      * @throws LocalizedException
      */
     public function execute(
-        string $uri,
+        string $uri = '',
         array $additionalHeaders = [],
-        string $params = ''
+        string $params = '',
+        ?int $scopeId = null,
+        ?string $scope = ScopeInterface::SCOPE_STORES
     ): ?array {
+
         // constructing API URL
-        $url = self:: LOKALISE_ENDPOINT_URL . $this->config->getProjectId() . $uri;
+        $url = self:: LOKALISE_ENDPOINT_URL . $this->config->getProjectId($scopeId, $scope) . $uri;
         $headers = [
-            'X-Api-Token' => $this->config->getApiToken(),
+            'X-Api-Token' => $this->config->getApiToken($scopeId, $scope),
             'accept' => 'application/json',
         ];
         if (!empty($additionalHeaders)) {
@@ -136,7 +155,7 @@ class APIService
                 $responseData['error']
             );
             $this->addLog('Connection Error', $errorData);
-            throw new LocalizedException(__('Lokalise API Error'));
+            throw new LocalizedException(__('Lokalise API Error: %1', $errorData['message']));
         }
         return $responseData;
     }
@@ -147,7 +166,7 @@ class APIService
      * @return array|null
      * @throws LocalizedException
      */
-    protected function getLanguagesList()
+    protected function getLanguagesList(): ?array
     {
         return $this->execute(self::LANGUAGE_URI);
     }

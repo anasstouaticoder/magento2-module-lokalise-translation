@@ -41,39 +41,41 @@ class Config
      */
     public function isEnabled($storeId = null): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED, ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED, ScopeInterface::SCOPE_STORES, $storeId);
     }
 
     /**
      * Get API TOKEN
      *
-     * @param int $storeId
+     * @param null|int $id
+     * @param string $scope
      * @return string
      */
-    public function getApiToken($storeId = null): string
+    public function getApiToken($id = null, ?string $scope = ScopeInterface::SCOPE_STORES): string
     {
-        return (string)$this->scopeConfig->getValue(self::XML_PATH_API_TOKEN, ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_API_TOKEN, $scope, $id);
     }
 
     /**
      * Get project ID
      *
-     * @param int $storeId
+     * @param null|int $id
+     * @param string $scope
      * @return string
      */
-    public function getProjectId($storeId = null): string
+    public function getProjectId($id = null, ?string $scope = ScopeInterface::SCOPE_STORES): string
     {
-        return (string)$this->scopeConfig->getValue(self::XML_PATH_PROJECT_ID, ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_PROJECT_ID, $scope, $id);
     }
 
     /**
      * Get is Debug
      *
-     * @param int $storeId
+     * @param null|int $storeId
      * @return bool
      */
     public function isDebug($storeId = null): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_DEBUG, ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_DEBUG, ScopeInterface::SCOPE_STORES, $storeId);
     }
 }

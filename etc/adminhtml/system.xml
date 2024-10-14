@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2024
+ * MIT License
+ * Module AnassTouatiCoder_LokaliseTranslation
+ * Author Anass TOUATI anass1touati@gmail.com
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
@@ -7,7 +15,7 @@
             <label>Lokalise Translation</label>
             <tab>anass_Touati_coder</tab>
             <resource>AnassTouatiCoder_LokaliseTranslation::config</resource>
-            <group id="general" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1"
@@ -37,6 +45,18 @@
                     Read more about Lokalise REST APIs</a></br>
                     <a href="" target="_blank">Model Wiki</a>
                     ]]></comment>
+                </field>
+            </group>
+            <group id="connection" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Connect</label>
+                <field id="api_test" translate="label,comment" type="button" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <frontend_model>\AnassTouatiCoder\LokaliseTranslation\Block\Adminhtml\Form\Api\TestConnectionButton</frontend_model>
+                    <label>Test Lokalise API credentials</label>
+                    <comment><![CDATA[
+                    <strong style="color:red;">NOTE:</strong><p>Please save Config before testing Connection<p>]]>
+                    </comment>
                 </field>
             </group>
         </section>
